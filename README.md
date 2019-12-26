@@ -7,5 +7,5 @@ Step 2: Put you API-key in menifest file inside the application
 
      <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="@string/google_maps_key" />
+            android:value="YOUR_API_KEY_HERE" />
 
