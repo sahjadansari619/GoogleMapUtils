@@ -12,8 +12,6 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
-import com.dhwaniris.tata_trust_delta.utils.PermissionHandler
-import com.dhwaniris.tata_trust_delta.utils.PermissionHandlerListener
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
@@ -76,7 +74,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, PermissionHandlerL
                     moveCamera(currentLocation.latitude, currentLocation.longitude)
                     locationTrack.add(currentLocation)
                     locationLatLng.add(LatLng(currentLocation.latitude, currentLocation.longitude))
-                    drawLine()
+                    drawLine(currentLocation)
                 }
             }
         })
@@ -226,6 +224,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, PermissionHandlerL
     }
 
     private fun startPath() {
+        polylineOptions.add(LatLng(lastLocation!!.latitude, lastLocation!!.longitude))
         mark()
         isStarted = true
 
@@ -386,8 +385,8 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, PermissionHandlerL
 
     }
 
-    private fun drawLine() {
-        polylineOptions.add(LatLng(lastLocation!!.latitude, lastLocation!!.longitude))
+    private fun drawLine(currentLocation: Location) {
+        polylineOptions.add(LatLng(currentLocation.latitude, currentLocation.longitude))
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             polylineOptions.color(getColor(R.color.colorAccent))

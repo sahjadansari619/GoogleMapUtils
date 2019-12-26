@@ -4,8 +4,8 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.dhwaniris.locationutils.MapsActivity
-import com.dhwaniris.tata_trust_delta.utils.PermissionHandler
-import com.dhwaniris.tata_trust_delta.utils.PermissionHandlerListener
+import com.dhwaniris.locationutils.PermissionHandler
+import com.dhwaniris.locationutils.PermissionHandlerListener
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity(), PermissionHandlerListener {

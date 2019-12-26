@@ -8,8 +8,6 @@ import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.MutableLiveData
-import com.dhwaniris.tata_trust_delta.utils.PermissionHandler
-import com.dhwaniris.tata_trust_delta.utils.PermissionHandlerListener
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback

@@ -8,7 +8,6 @@ import android.location.LocationManager
 import android.os.Bundle
 import android.os.IBinder
 import androidx.core.app.ActivityCompat
-import com.dhwaniris.tata_trust_delta.utils.LocationHandlerListener
 import com.google.android.gms.common.ConnectionResult
 import com.google.android.gms.common.api.GoogleApiClient
 import com.google.android.gms.location.LocationRequest

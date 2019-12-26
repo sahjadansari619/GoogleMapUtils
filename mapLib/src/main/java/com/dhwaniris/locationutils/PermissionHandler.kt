@@ -1,4 +1,4 @@
-package com.dhwaniris.tata_trust_delta.utils
+package com.dhwaniris.locationutils
 
 import android.Manifest
 import android.app.Activity
@@ -11,9 +11,6 @@ import androidx.core.app.ActivityCompat
 import androidx.core.app.ActivityCompat.shouldShowRequestPermissionRationale
 import androidx.core.content.ContextCompat
 import androidx.appcompat.app.AlertDialog
-import com.dhwaniris.locationutils.BuildConfig
-import com.dhwaniris.locationutils.Constant
-import com.dhwaniris.locationutils.R
 
 
 /**

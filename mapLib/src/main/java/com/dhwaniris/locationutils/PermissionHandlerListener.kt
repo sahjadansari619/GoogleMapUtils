@@ -1,4 +1,4 @@
-package com.dhwaniris.tata_trust_delta.utils
+package com.dhwaniris.locationutils
 /**
  * Created by ${Sahjad} on 01/29/2019.
  */
