@@ -1,9 +1,4 @@
 <resources>
-    <string name="app_name">LocationUtils</string>
-    <string name="title_activity_maps">Map</string>
-    <string name="permission_required">Permission Required</string>
-    <string name="login_permission">Please accept the GPS, Storage and Phone State permission</string>
-    <string name="ok">Ok</string>
-    <string name="no">No</string>
-
+    <string name="app_name">My Library</string>
+    <string name="title_activity_test">TestActivity</string>
 </resources>

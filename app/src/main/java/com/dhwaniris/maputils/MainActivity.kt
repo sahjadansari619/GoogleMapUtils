@@ -1,8 +1,9 @@
-package com.dhwaniris.locationutils
+package com.dhwaniris.maputils
 
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import com.dhwaniris.locationutils.MapsActivity
 import com.dhwaniris.tata_trust_delta.utils.PermissionHandler
 import com.dhwaniris.tata_trust_delta.utils.PermissionHandlerListener
 import kotlinx.android.synthetic.main.activity_main.*
