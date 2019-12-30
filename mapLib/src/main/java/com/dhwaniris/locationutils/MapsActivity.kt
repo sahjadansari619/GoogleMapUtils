@@ -157,6 +157,9 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, PermissionHandlerL
                 .setPositiveButton(R.string.ok) { _, _ ->
                     val intent = Intent()
                     intent.putExtra(RESULT, resultInMtr)
+                    intent.putExtra(
+                        RESULT_LAT_LONG, getLocationTrackString()
+                    )
                     setResult(REQUEST_CODE_FOR_MAP_ACTIVITY, intent)
                     finish()
                 }
@@ -175,6 +178,15 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, PermissionHandlerL
                 mMap.mapType = GoogleMap.MAP_TYPE_NORMAL
             }
         }
+    }
+
+    fun getLocationTrackString(): ArrayList<String> {
+        val arrayList = if (switch_action.isChecked) locationTrackByMark else locationTrack
+        val trackList = ArrayList<String>()
+        arrayList.forEach {
+            trackList.add("${it.latitude},${it.longitude},${it.accuracy}")
+        }
+        return trackList
     }
 
     private fun validateLocation(
@@ -221,6 +233,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, PermissionHandlerL
         const val LENGTH = "LENGTH"
         const val COMPUTE_TYPE = "COMPUTE_TYPE"
         const val RESULT = "RESULT"
+        const val RESULT_LAT_LONG = "RESULT_LAT_LONG"
     }
 
     private fun startPath() {
