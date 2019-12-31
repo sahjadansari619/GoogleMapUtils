@@ -22,6 +22,7 @@ class MainActivity : AppCompatActivity(), PermissionHandlerListener {
 
             if (permissionHandler.checkGpsPermission()) {
                 intent.putExtra(MapsActivity.COMPUTE_TYPE, MapsActivity.AREA)
+                intent.putExtra(MapsActivity.MIN_ACCURACY_TO_START,18.0)
                 startActivityForResult(intent, MapsActivity.REQUEST_CODE_FOR_MAP_ACTIVITY)
             } else {
                 permissionHandler.requestGpsPermission()

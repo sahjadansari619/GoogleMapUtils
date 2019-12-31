@@ -38,6 +38,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, PermissionHandlerL
     var zoomDone = false
     private var lastLocation: Location? = null
     private lateinit var lastCapcturedLocation: Location
+    private lateinit var lastMarkedLocation: Location
     private val polylineOptions = PolylineOptions()
     private var lastPolyLine: Polyline? = null
     private var lastPolygon: Polygon? = null
@@ -59,8 +60,8 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, PermissionHandlerL
 
         intent.extras?.let { extraData ->
             computeType = extraData.getString(COMPUTE_TYPE, AREA)
-            minAccuracyToStart = extraData.getDouble(MIN_ACCURACY_TO_START)
-            minRunTimeAccuracy = extraData.getDouble(MIN_ACCURACY_RUNTIME)
+            minAccuracyToStart = extraData.getDouble(MIN_ACCURACY_TO_START, 15.00)
+            minRunTimeAccuracy = extraData.getDouble(MIN_ACCURACY_RUNTIME, 30.0)
         }
         locationHandler = LocationHandler(this)
         permissionHandler = PermissionHandler(this, this)
@@ -108,7 +109,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, PermissionHandlerL
             }
         }
         btnMark.setOnClickListener {
-            mark()
+            mark(false)
         }
         btnStop.setOnClickListener {
             AlertDialog.Builder(this)
@@ -249,7 +250,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, PermissionHandlerL
 
     private fun startPath() {
         polylineOptions.add(LatLng(lastLocation!!.latitude, lastLocation!!.longitude))
-        mark()
+        mark(true)
         isStarted = true
 
     }
@@ -269,28 +270,40 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, PermissionHandlerL
 
     }
 
-    private fun mark() {
+    private fun mark(initial: Boolean) {
         if (lastLocation != null) {
-            addMarker(lastLocation!!.latitude, lastLocation!!.longitude)
-            locationLatLngByMark.add(LatLng(lastLocation!!.latitude, lastLocation!!.longitude))
-            locationTrackByMark.add(lastLocation!!)
+            if (initial||validateLocation(lastMarkedLocation, lastLocation!!)) {
+                addMarker(lastLocation!!.latitude, lastLocation!!.longitude)
+                lastMarkedLocation = lastLocation!!
+                locationLatLngByMark.add(LatLng(lastLocation!!.latitude, lastLocation!!.longitude))
+                locationTrackByMark.add(lastLocation!!)
+            }
+
         }
 
     }
 
     private fun stopAction() {
-        btnMark.visibility = View.GONE
-        btnStop.visibility = View.GONE
-        btnStart.visibility = View.GONE
 
-        btnCompute.visibility = View.VISIBLE
-        if (locationLatLngByMark.size > 2) {
-            switch_action.visibility = View.VISIBLE
+
+        if (locationTrack.size > 0) {
+            btnMark.visibility = View.GONE
+            btnStop.visibility = View.GONE
+            btnStart.visibility = View.GONE
+            btnCompute.visibility = View.VISIBLE
+            if (locationLatLngByMark.size > 2) {
+                switch_action.visibility = View.VISIBLE
+            }
+            isStarted = false
+            lastPolyLine?.remove()
+
+            drawResult(locationTrack)
+
+        } else {
+            Toast.makeText(this, "Not enough data to show", Toast.LENGTH_SHORT)
+                .show()
+
         }
-        isStarted = false
-        lastPolyLine?.remove()
-
-        drawResult(locationTrack)
     }
 
     private fun drawPolygon(locationTrack: ArrayList<Location>) {
