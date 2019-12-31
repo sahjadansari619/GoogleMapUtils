@@ -4,6 +4,7 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.dhwaniris.locationutils.MapsActivity
+import com.dhwaniris.locationutils.MapsActivityTest
 import com.dhwaniris.locationutils.PermissionHandler
 import com.dhwaniris.locationutils.PermissionHandlerListener
 import kotlinx.android.synthetic.main.activity_main.*
@@ -28,12 +29,14 @@ class MainActivity : AppCompatActivity(), PermissionHandlerListener {
         }
 
         calculate_length.setOnClickListener {
-            if (permissionHandler.checkGpsPermission()) {
+            startActivity(Intent(this, MapsActivityTest::class.java))
+
+           /* if (permissionHandler.checkGpsPermission()) {
                 intent.putExtra(MapsActivity.COMPUTE_TYPE, MapsActivity.LENGTH)
                 startActivityForResult(intent, MapsActivity.REQUEST_CODE_FOR_MAP_ACTIVITY)
             } else {
                 permissionHandler.requestGpsPermission()
-            }
+            }*/
         }
 
     }

@@ -43,6 +43,8 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, PermissionHandlerL
     private var lastPolygon: Polygon? = null
     private var resultInMtr: Double = 0.0
     private var computeType = AREA
+    private var minAccuracyToStart: Double = 15.0
+    private var minRunTimeAccuracy: Double = 30.0
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -57,7 +59,8 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, PermissionHandlerL
 
         intent.extras?.let { extraData ->
             computeType = extraData.getString(COMPUTE_TYPE, AREA)
-
+            minAccuracyToStart = extraData.getDouble(MIN_ACCURACY_TO_START)
+            minRunTimeAccuracy = extraData.getDouble(MIN_ACCURACY_RUNTIME)
         }
         locationHandler = LocationHandler(this)
         permissionHandler = PermissionHandler(this, this)
@@ -88,7 +91,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, PermissionHandlerL
                 lastLocation == null -> {
                     Toast.makeText(this, "Please wait", Toast.LENGTH_SHORT).show()
                 }
-                lastLocation!!.accuracy > 15 -> {
+                lastLocation!!.accuracy > minAccuracyToStart -> {
                     Toast.makeText(
                         this,
                         "Accuracy is ${lastLocation!!.accuracy.toInt()}, Please wait",
@@ -180,7 +183,13 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, PermissionHandlerL
         }
     }
 
-    fun getLocationTrackString(): ArrayList<String> {
+    override fun onDestroy() {
+        window.clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
+        super.onDestroy()
+
+    }
+
+    private fun getLocationTrackString(): ArrayList<String> {
         val arrayList = if (switch_action.isChecked) locationTrackByMark else locationTrack
         val trackList = ArrayList<String>()
         arrayList.forEach {
@@ -195,7 +204,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, PermissionHandlerL
     ): Boolean {
         val distance = currentLocation.distanceTo(lastCapturedLocation)
         return when {
-            currentLocation.accuracy > 30 -> {
+            currentLocation.accuracy > minRunTimeAccuracy -> {
                 false
             }
             currentLocation.accuracy > 20 -> {
@@ -234,6 +243,8 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, PermissionHandlerL
         const val COMPUTE_TYPE = "COMPUTE_TYPE"
         const val RESULT = "RESULT"
         const val RESULT_LAT_LONG = "RESULT_LAT_LONG"
+        const val MIN_ACCURACY_TO_START = "MIN_ACCURACY_TO_START"
+        const val MIN_ACCURACY_RUNTIME = "MIN_ACCURACY_RUNTIME"
     }
 
     private fun startPath() {

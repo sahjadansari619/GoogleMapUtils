@@ -79,7 +79,7 @@ class MapsActivityTest : AppCompatActivity(), OnMapReadyCallback, PermissionHand
 
         switch_action.setOnCheckedChangeListener { buttonView, isChecked ->
             if (isChecked) {
-                val concaveBoundries = ConcaveHull().calculateConcaveHull(getlist(), 10)
+                val concaveBoundries = ConcaveHull().calculateConcaveHull(getlist(), 5)
 
                 drawPolygon(concaveBoundries)
 
